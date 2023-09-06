@@ -7,4 +7,5 @@ phases:
   
   build:
     commands:
+    ## El objetivo es crear directamente la infra-estructura. 
       - terraform apply -var-file="variables.tfvars" --auto-approve

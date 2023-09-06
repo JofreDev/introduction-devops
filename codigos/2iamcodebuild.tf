@@ -1,3 +1,4 @@
+### Estructura de AWS para definir rol y sus politicas que serán usadas para el servicio de Code Build
 
 resource "aws_iam_role" "assume_codebuild_role" {
   name = "codebuild_role"
@@ -19,6 +20,8 @@ resource "aws_iam_role" "assume_codebuild_role" {
   EOF
 
 }
+
+### Especificaciones propias de tf
 data "aws_iam_policy_document" "cicd_build_policies" {
     statement{
         sid = ""

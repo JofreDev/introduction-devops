@@ -1,6 +1,11 @@
+## Bucket para que codepipeline almacene sus artefactos
+
 resource "aws_s3_bucket" "codepipeline_artifacts" {
-  bucket = "platzi-mis-despliegues-automaticos-con-terraform"
-} 
+  bucket = "practicas-mis-despliegues-automaticos-con-terraform"
+}
+
+## Tf necesita otro bucket para almacenar sus ficheros cuando ya esté funcionando.
+
 resource "aws_s3_bucket" "terraformstate" {
-  bucket = "platzi-terraform-state"
+  bucket = "practicas-terraform-state"
 } 

@@ -1,6 +1,7 @@
 
+### Estructura de AWS para definir rol y sus politicas que serán usadas para el servicio de Code Pipeline
 resource "aws_iam_role" "assume_codepipeline_role" {
-  name = "codepipeline_role"
+  name = "codepipeline_role" ## Importante !!! Nombre del rol 
 
   assume_role_policy = <<EOF
   {

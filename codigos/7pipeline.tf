@@ -1,13 +1,15 @@
 
+# Orquestador encargado de unir el code commit con los codebuild.
+
 resource "aws_codepipeline" "cicd_pipeline" {
-  name     = "terraform-cicd"
-  role_arn = aws_iam_role.assume_codepipeline_role.arn
+  name     = "terraform-cicd" # Importante el nombre
+  role_arn = aws_iam_role.assume_codepipeline_role.arn # Se agrega el rol
 
   artifact_store {
     type     = "S3"
-    location = aws_s3_bucket.codepipeline_artifacts.id
+    location = aws_s3_bucket.codepipeline_artifacts.id ## Se llama al bucket donde almacenará sus archivos
   }
-  stage {
+  stage { ### El code pipeline usará un CodeCommit
     name = "Source"
     action {
       name             = "Source"
@@ -17,14 +19,14 @@ resource "aws_codepipeline" "cicd_pipeline" {
       version          = "1"
       output_artifacts = ["code"]
       configuration = {
-        RepositoryName       = "repositorio-de-cicd"
+        RepositoryName       = "repositorio-de-cicd" ## Le decimos que repo usará (Que se creo en 1codecommit)
         BranchName           = "master"
         OutputArtifactFormat = "CODE_ZIP"
       }
     }
   }
 
-  stage {
+  stage { ### El code pipeline usará un CodeBuild
     name = "Plan"
     action {
       name            = "Build"
@@ -34,12 +36,12 @@ resource "aws_codepipeline" "cicd_pipeline" {
       owner           = "AWS"
       input_artifacts = ["code"]
       configuration = {
-        ProjectName = "cicd-plan"
+        ProjectName = "cicd-plan"  ## Le decimos que proyecto usará (Que se creo en 6codebuild)
       }
     }
   }
 
-  stage {
+  stage { ### El code pipeline usará un CodeBuild
     name = "Deploy"
     action {
       name            = "Deploy"
@@ -49,7 +51,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       owner           = "AWS"
       input_artifacts = ["code"]
       configuration = {
-        ProjectName = "cicd-apply"
+        ProjectName = "cicd-apply" ## Le decimos que proyecto usará (Que se creo en 6codebuild)
       }
     }
   }
